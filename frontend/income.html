@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Income Tracker – CareerStack</title>
+  <meta name="description"
+    content="Track your income growth and financial progress as you build your career with CareerStack." />
+  <link rel="stylesheet" href="style.css" />
+  <script src="theme.js" defer></script>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🚀</div>
+        <span class="gradient-text">CareerStack</span>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="jobfeed.html">Job Feed</a>
+        <a href="income.html" class="active">Income Tracker</a>
+        <a href="user-dashboard.html">Dashboard</a>
+        <a href="admin-dashboard.html" id="adminNavLink" style="display:none;">Admin</a>
+        <button id="logoutBtn" class="btn btn-outline"
+          style="padding:7px 16px;font-size:.85rem;border:none;cursor:pointer;">
+          Logout
+        </button>
+      </div>
+
+      <div class="nav-right">
+        <button id="themeToggle" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <h1>💰 <span class="gradient-text">Income Tracker</span></h1>
+      <p>Monitor your earning growth and visualise your career progress over time.</p>
+    </div>
+  </div>
+
+  <!-- MAIN SECTION -->
+  <section class="section">
+    <div class="container">
+
+      <!-- SUMMARY CARDS -->
+      <div class="stats-strip">
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(79,142,247,.12);">📈</div>
+          <div class="sc-value" id="avgIncome">₹0</div>
+          <div class="sc-label">Average Monthly Income</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(0,180,138,.12);">💵</div>
+          <div class="sc-value" id="maxIncome">₹0</div>
+          <div class="sc-label">Highest Income</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(247,146,79,.12);">🧾</div>
+          <div class="sc-value" id="entryCount">0</div>
+          <div class="sc-label">Income Entries</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(124,92,252,.12);">🚀</div>
+          <div class="sc-value" id="growthPct">0%</div>
+          <div class="sc-label">Growth From First Entry</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:380px 1fr;gap:24px;align-items:start;" id="incomeGrid">
+
+        <!-- LEFT: FORM -->
+        <div>
+          <div class="card" style="padding:24px;">
+            <h3 style="margin-bottom:8px;">Add Income Entry</h3>
+            <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:18px;">
+              Track monthly earnings, internships, freelance income, or salary progression.
+            </p>
+
+            <div id="incomeAlert" class="alert" style="display:none;"></div>
+
+            <form id="incomeForm">
+              <div class="form-group">
+                <label class="form-label" for="incomeMonth">Month</label>
+                <input type="month" id="incomeMonth" class="form-control" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="incomeAmount">Amount (₹)</label>
+                <input type="number" id="incomeAmount" class="form-control" min="0" step="0.01"
+                  placeholder="e.g. 25000" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="incomeSource">Source</label>
+                <input type="text" id="incomeSource" class="form-control"
+                  placeholder="e.g. Internship, Freelance, Salary, Side Project" />
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+                Save Income Entry
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- RIGHT: CHART + TABLE -->
+        <div>
+          <!-- CHART -->
+          <div class="card" style="padding:24px;margin-bottom:20px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+              <div>
+                <h3 style="margin-bottom:4px;">Income Trend</h3>
+                <p style="font-size:.82rem;color:var(--text-secondary);">
+                  A simple visual of your monthly earning progression
+                </p>
+              </div>
+              <span class="tag tag-blue">Career Growth</span>
+            </div>
+
+            <div style="height:320px;position:relative;">
+              <canvas id="incomeChart"></canvas>
+            </div>
+          </div>
+
+          <!-- TABLE -->
+          <div class="card" style="padding:24px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+              <div>
+                <h3 style="margin-bottom:4px;">Income History</h3>
+                <p style="font-size:.82rem;color:var(--text-secondary);">
+                  Your saved monthly income records
+                </p>
+              </div>
+              <button id="clearIncomeBtn" class="btn btn-outline" style="padding:8px 14px;">
+                Clear All
+              </button>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Month</th>
+                    <th>Amount</th>
+                    <th>Source</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="incomeTableBody">
+                  <tr>
+                    <td colspan="4" style="text-align:center;color:var(--text-muted);">
+                      No income entries yet
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© 2026 CareerStack. Built for SDG Goal 8 – Decent Work &amp; Economic Growth.</span>
+        <a href="index.html" class="btn btn-outline" style="padding:6px 14px;font-size:.82rem;">← Home</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="auth.js"></script>
+
+  <script>
+    let incomeChart = null;
+    let incomeEntries = [];
+
+    function showAlert(type, message) {
+      const alert = document.getElementById('incomeAlert');
+      if (!alert) return;
+
+      alert.className = `alert ${type}`;
+      alert.textContent = message;
+      alert.style.display = 'block';
+
+      setTimeout(() => {
+        alert.style.display = 'none';
+      }, 2500);
+    }
+
+    function formatCurrency(amount) {
+      const num = Number(amount || 0);
+      return `₹${num.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+    }
+
+    function sortEntries(entries) {
+      return [...entries].sort((a, b) => (a.month || '').localeCompare(b.month || ''));
+    }
+
+    function getStoredEntries() {
+      try {
+        return JSON.parse(localStorage.getItem('cs_incomeEntries') || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    function setStoredEntries(entries) {
+      localStorage.setItem('cs_incomeEntries', JSON.stringify(entries));
+    }
+
+    function updateSummary(entries) {
+      const avgEl = document.getElementById('avgIncome');
+      const maxEl = document.getElementById('maxIncome');
+      const countEl = document.getElementById('entryCount');
+      const growthEl = document.getElementById('growthPct');
+
+      if (!entries.length) {
+        avgEl.textContent = '₹0';
+        maxEl.textContent = '₹0';
+        countEl.textContent = '0';
+        growthEl.textContent = '0%';
+        return;
+      }
+
+      const amounts = entries.map(e => Number(e.amount || 0));
+      const total = amounts.reduce((sum, n) => sum + n, 0);
+      const avg = total / amounts.length;
+      const max = Math.max(...amounts);
+
+      const sorted = sortEntries(entries);
+      const first = Number(sorted[0]?.amount || 0);
+      const last = Number(sorted[sorted.length - 1]?.amount || 0);
+
+      let growth = 0;
+      if (first > 0) {
+        growth = Math.round(((last - first) / first) * 100);
+      }
+
+      avgEl.textContent = formatCurrency(avg);
+      maxEl.textContent = formatCurrency(max);
+      countEl.textContent = String(entries.length);
+      growthEl.textContent = `${growth}%`;
+    }
+
+    function renderTable(entries) {
+      const tbody = document.getElementById('incomeTableBody');
+
+      if (!entries.length) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="4" style="text-align:center;color:var(--text-muted);">
+              No income entries yet
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      const sorted = sortEntries(entries);
+
+      tbody.innerHTML = sorted.map((entry, index) => `
+        <tr>
+          <td>${entry.month || '-'}</td>
+          <td>${formatCurrency(entry.amount)}</td>
+          <td>${entry.source ? escapeHtml(entry.source) : '<span style="color:var(--text-muted)">—</span>'}</td>
+          <td>
+            <button class="btn btn-outline" style="padding:6px 10px;font-size:.78rem;"
+              onclick="deleteEntry(${index})">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderChart(entries) {
+      const ctx = document.getElementById('incomeChart');
+      if (!ctx) return;
+
+      const sorted = sortEntries(entries);
+
+      const labels = sorted.map(e => e.month || '');
+      const values = sorted.map(e => Number(e.amount || 0));
+
+      if (incomeChart) {
+        incomeChart.destroy();
+      }
+
+      incomeChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Income',
+            data: values,
+            tension: 0.35,
+            fill: false,
+            borderWidth: 3,
+            pointRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    function refreshUI() {
+      updateSummary(incomeEntries);
+      renderTable(incomeEntries);
+      renderChart(incomeEntries);
+    }
+
+    function escapeHtml(str = '') {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    window.deleteEntry = function (sortedIndex) {
+      const sorted = sortEntries(incomeEntries);
+      const target = sorted[sortedIndex];
+      if (!target) return;
+
+      const originalIndex = incomeEntries.findIndex(e =>
+        e.month === target.month &&
+        Number(e.amount) === Number(target.amount) &&
+        (e.source || '') === (target.source || '')
+      );
+
+      if (originalIndex !== -1) {
+        incomeEntries.splice(originalIndex, 1);
+        setStoredEntries(incomeEntries);
+        refreshUI();
+        showAlert('alert-success', 'Income entry deleted successfully.');
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await Auth.requireAuth();
+      if (!user) return;
+
+      Auth.showAdminNav(user);
+
+      document.getElementById('hamburger')?.addEventListener('click', () => {
+        document.getElementById('navLinks')?.classList.toggle('open');
+      });
+
+      document.getElementById('logoutBtn')?.addEventListener('click', () => Auth.logout());
+
+      incomeEntries = getStoredEntries();
+      refreshUI();
+
+      const form = document.getElementById('incomeForm');
+      form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const month = document.getElementById('incomeMonth').value;
+        const amount = document.getElementById('incomeAmount').value;
+        const source = document.getElementById('incomeSource').value.trim();
+
+        if (!month || !amount) {
+          showAlert('alert-warning', 'Please fill in month and amount.');
+          return;
+        }
+
+        incomeEntries.push({
+          month,
+          amount: Number(amount),
+          source
+        });
+
+        setStoredEntries(incomeEntries);
+        refreshUI();
+        form.reset();
+
+        showAlert('alert-success', 'Income entry added successfully.');
+      });
+
+      document.getElementById('clearIncomeBtn')?.addEventListener('click', () => {
+        if (!incomeEntries.length) return;
+
+        const confirmClear = confirm('Are you sure you want to clear all income entries?');
+        if (!confirmClear) return;
+
+        incomeEntries = [];
+        setStoredEntries(incomeEntries);
+        refreshUI();
+        showAlert('alert-success', 'All income entries cleared.');
+      });
+    });
+  </script>
+
+  <style>
+    @media (max-width: 900px) {
+      #incomeGrid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+
+</body>
+
+</html>

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Feed – CareerStack</title>
+  <meta name="description"
+    content="Explore curated job roles, compare required skills, and check your skill match with CareerStack." />
+  <link rel="stylesheet" href="style.css" />
+  <script src="theme.js" defer></script>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🚀</div>
+        <span class="gradient-text">CareerStack</span>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="jobfeed.html" class="active">Job Feed</a>
+        <a href="income.html">Income Tracker</a>
+
+        <!-- Visible only after login -->
+        <a href="user-dashboard.html" id="dashboardNavLink" style="display:none;">Dashboard</a>
+        <a href="admin-dashboard.html" id="adminNavLink" style="display:none;">Admin</a>
+
+        <!-- Guest actions -->
+        <a href="login.html" id="loginNavLink" class="btn btn-outline"
+          style="padding:7px 16px;font-size:.85rem;">Login</a>
+        <a href="register.html" id="registerNavLink" class="btn btn-primary"
+          style="padding:7px 16px;font-size:.85rem;">Get Started</a>
+
+        <!-- Logged in action -->
+        <button id="logoutBtn" class="btn btn-outline"
+          style="padding:7px 16px;font-size:.85rem;border:none;cursor:pointer;display:none;">
+          Logout
+        </button>
+      </div>
+
+      <div class="nav-right">
+        <button id="themeToggle" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <h1>💼 <span class="gradient-text">Job Feed</span></h1>
+      <p>
+        Explore job roles, understand required skills, and check how closely your current
+        skills match each target career path.
+      </p>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <section class="section" style="padding-bottom:12px;">
+    <div class="container">
+      <div class="card" style="padding:20px;">
+        <div class="jobfeed-toolbar">
+          <div class="toolbar-field">
+            <label class="form-label" for="searchInput">Search Job Roles</label>
+            <input type="text" id="searchInput" class="form-control"
+              placeholder="e.g. AI Engineer, Data Scientist, Cloud..." />
+          </div>
+
+          <div class="toolbar-field">
+            <label class="form-label" for="skillFilterInput">Filter by Skill</label>
+            <input type="text" id="skillFilterInput" class="form-control"
+              placeholder="e.g. Python, Docker, SQL..." />
+          </div>
+
+          <div class="toolbar-field toolbar-btn">
+            <button id="clearFiltersBtn" class="btn btn-outline" style="width:100%;">
+              Clear Filters
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOBS -->
+  <section class="section" style="padding-top:12px;">
+    <div class="container">
+
+      <!-- STATS -->
+      <div class="stats-admin" style="margin-bottom:22px;">
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(79,142,247,.12);">💼</div>
+          <div class="sc-value" id="totalJobsCount">0</div>
+          <div class="sc-label">Total Job Roles</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(0,180,138,.12);">🎯</div>
+          <div class="sc-value" id="visibleJobsCount">0</div>
+          <div class="sc-label">Filtered Results</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(247,146,79,.12);">🧠</div>
+          <div class="sc-value" id="uniqueSkillsCount">0</div>
+          <div class="sc-label">Skills Covered</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(124,92,252,.12);">⚡</div>
+          <div class="sc-value">Live</div>
+          <div class="sc-label">Backend Data</div>
+        </div>
+      </div>
+
+      <div id="jobFeedAlert" class="alert" style="display:none;"></div>
+
+      <div class="jobs-grid" id="jobsGrid">
+        <div class="card" style="padding:24px;text-align:center;color:var(--text-muted);">
+          Loading jobs...
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section band-blue">
+    <div class="container">
+      <div class="section-title">⚙️ How to Use Job Feed</div>
+      <p class="section-sub">CareerStack is not just a job listing page — it helps users bridge skill gaps</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;">
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-blue">1️⃣</div>
+          <h4 style="margin-bottom:8px;">Pick a Role</h4>
+          <p style="font-size:.85rem;color:var(--text-secondary);">
+            Browse a role that matches your target career path.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-green">2️⃣</div>
+          <h4 style="margin-bottom:8px;">Check Match</h4>
+          <p style="font-size:.85rem;color:var(--text-secondary);">
+            Jump to the dashboard with that role pre-selected for skill analysis.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-purple">3️⃣</div>
+          <h4 style="margin-bottom:8px;">See Skill Gaps</h4>
+          <p style="font-size:.85rem;color:var(--text-secondary);">
+            Compare your current skills against required role skills.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-orange">4️⃣</div>
+          <h4 style="margin-bottom:8px;">Learn What’s Missing</h4>
+          <p style="font-size:.85rem;color:var(--text-secondary);">
+            Get course recommendations for the missing skills you need to build.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">🚀</div>
+            <span class="gradient-text">CareerStack</span>
+          </a>
+          <p>
+            Explore job roles, identify skill gaps, and discover courses that improve career readiness.
+          </p>
+          <div class="sdg-badge" style="margin-top:14px;display:inline-flex;">🌍 SDG Goal 8</div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <a href="index.html">Home</a>
+          <a href="jobfeed.html">Job Feed</a>
+          <a href="income.html">Income Tracker</a>
+          <a href="user-dashboard.html">Dashboard</a>
+        </div>
+
+        <div class="footer-col">
+          <h5>Accounts</h5>
+          <a href="login.html">Login</a>
+          <a href="register.html">Register</a>
+          <a href="admin-dashboard.html">Admin Panel</a>
+        </div>
+
+        <div class="footer-col">
+          <h5>CareerStack Flow</h5>
+          <a href="jobfeed.html">Browse Roles</a>
+          <a href="user-dashboard.html">Check Skill Match</a>
+          <a href="user-dashboard.html">View Missing Skills</a>
+          <a href="user-dashboard.html">Find Courses</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 CareerStack. Built for SDG Goal 8 – Decent Work &amp; Economic Growth.</span>
+        <span>Skill clarity first. Applications second.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="auth.js"></script>
+
+  <script>
+    let ALL_JOBS = [];
+    let FILTERED_JOBS = [];
+
+    function showAlert(type, message) {
+      const alert = document.getElementById('jobFeedAlert');
+      if (!alert) return;
+
+      alert.className = `alert ${type}`;
+      alert.textContent = message;
+      alert.style.display = 'block';
+
+      setTimeout(() => {
+        alert.style.display = 'none';
+      }, 2500);
+    }
+
+    function escapeHtml(str = '') {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function normalize(str = '') {
+      return String(str).trim().toLowerCase();
+    }
+
+    function setGuestUI() {
+      const loginNavLink = document.getElementById('loginNavLink');
+      const registerNavLink = document.getElementById('registerNavLink');
+      const dashboardNavLink = document.getElementById('dashboardNavLink');
+      const adminNavLink = document.getElementById('adminNavLink');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      if (loginNavLink) loginNavLink.style.display = '';
+      if (registerNavLink) registerNavLink.style.display = '';
+      if (dashboardNavLink) dashboardNavLink.style.display = 'none';
+      if (adminNavLink) adminNavLink.style.display = 'none';
+      if (logoutBtn) logoutBtn.style.display = 'none';
+    }
+
+    function setUserUI(user) {
+      const loginNavLink = document.getElementById('loginNavLink');
+      const registerNavLink = document.getElementById('registerNavLink');
+      const dashboardNavLink = document.getElementById('dashboardNavLink');
+      const adminNavLink = document.getElementById('adminNavLink');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      if (loginNavLink) loginNavLink.style.display = 'none';
+      if (registerNavLink) registerNavLink.style.display = 'none';
+      if (dashboardNavLink) dashboardNavLink.style.display = '';
+      if (logoutBtn) logoutBtn.style.display = '';
+
+      if (adminNavLink) {
+        adminNavLink.style.display = user?.role === 'admin' ? '' : 'none';
+      }
+    }
+
+    function getRoleTag(title = '') {
+      const t = normalize(title);
+
+      if (t.includes('ai') || t.includes('ml')) return '<span class="tag tag-blue">AI / ML</span>';
+      if (t.includes('data')) return '<span class="tag tag-orange">Data</span>';
+      if (t.includes('cloud')) return '<span class="tag tag-purple">Cloud</span>';
+      if (t.includes('security') || t.includes('cyber')) return '<span class="tag tag-rose">Security</span>';
+      if (t.includes('devops')) return '<span class="tag tag-green">DevOps</span>';
+      if (t.includes('developer')) return '<span class="tag tag-blue">Development</span>';
+
+      return '<span class="tag tag-green">Career Role</span>';
+    }
+
+    function getRoleEmoji(title = '') {
+      const t = normalize(title);
+
+      if (t.includes('ai') || t.includes('ml')) return '🤖';
+      if (t.includes('data')) return '📊';
+      if (t.includes('cloud')) return '☁️';
+      if (t.includes('security') || t.includes('cyber')) return '🛡️';
+      if (t.includes('devops')) return '⚙️';
+      if (t.includes('mobile')) return '📱';
+      if (t.includes('blockchain')) return '⛓️';
+      if (t.includes('developer')) return '💻';
+
+      return '💼';
+    }
+
+    function updateStats() {
+      document.getElementById('totalJobsCount').textContent = String(ALL_JOBS.length);
+      document.getElementById('visibleJobsCount').textContent = String(FILTERED_JOBS.length);
+
+      const uniqueSkills = new Set();
+      ALL_JOBS.forEach(job => {
+        (job.skills || []).forEach(skill => uniqueSkills.add(normalize(skill)));
+      });
+
+      document.getElementById('uniqueSkillsCount').textContent = String(uniqueSkills.size);
+    }
+
+    function renderJobs() {
+      const grid = document.getElementById('jobsGrid');
+
+      if (!FILTERED_JOBS.length) {
+        grid.innerHTML = `
+          <div class="card" style="padding:24px;text-align:center;">
+            <h3 style="margin-bottom:8px;">No matching job roles found</h3>
+            <p style="color:var(--text-secondary);font-size:.9rem;">
+              Try changing your search or skill filter.
+            </p>
+          </div>
+        `;
+        updateStats();
+        return;
+      }
+
+      grid.innerHTML = FILTERED_JOBS.map(job => {
+        const skills = Array.isArray(job.skills) ? job.skills : [];
+
+        return `
+          <div class="card job-card">
+            <div class="job-card-header">
+              <div class="job-icon" style="background:rgba(79,142,247,.12);">${getRoleEmoji(job.title)}</div>
+              <div>
+                <h3>${escapeHtml(job.title || 'Untitled Role')}</h3>
+                <p class="company">${escapeHtml(job.company || 'CareerStack')}</p>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+              ${getRoleTag(job.title)}
+              ${job.type ? `<span class="tag tag-blue">${escapeHtml(job.type)}</span>` : ''}
+            </div>
+
+            <p style="font-size:.88rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.6;">
+              ${escapeHtml(job.description || 'Explore this role, compare your skills, and identify what to learn next.')}
+            </p>
+
+            <div class="skills-list">
+              ${skills.length
+                ? skills.slice(0, 8).map(skill => `<span class="skill-chip">${escapeHtml(skill)}</span>`).join('')
+                : '<span style="color:var(--text-muted);font-size:.85rem;">No skills added</span>'
+              }
+            </div>
+
+            <div class="job-meta">
+              <span>📍 ${escapeHtml(job.location || 'Remote')}</span>
+              <span>💰 ${escapeHtml(job.salary || 'Not specified')}</span>
+              <span>${job.applyUrl ? '🔗 External Apply Available' : '🎯 Match-First Flow'}</span>
+            </div>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+              <a href="user-dashboard.html?job=${encodeURIComponent(job._id)}"
+                class="btn btn-primary"
+                style="flex:1;justify-content:center;min-width:160px;">
+                Check Match
+              </a>
+
+              ${job.applyUrl
+                ? `<a href="${escapeHtml(job.applyUrl)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-outline"
+                    style="justify-content:center;min-width:120px;">
+                    Apply
+                  </a>`
+                : ''
+              }
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      updateStats();
+    }
+
+    function applyFilters() {
+      const search = normalize(document.getElementById('searchInput')?.value || '');
+      const skill = normalize(document.getElementById('skillFilterInput')?.value || '');
+
+      FILTERED_JOBS = ALL_JOBS.filter(job => {
+        const title = normalize(job.title || '');
+        const company = normalize(job.company || '');
+        const description = normalize(job.description || '');
+        const skills = (job.skills || []).map(normalize);
+
+        const matchesSearch =
+          !search ||
+          title.includes(search) ||
+          company.includes(search) ||
+          description.includes(search);
+
+        const matchesSkill =
+          !skill ||
+          skills.some(s => s.includes(skill));
+
+        return matchesSearch && matchesSkill;
+      });
+
+      renderJobs();
+    }
+
+    async function loadJobs() {
+      try {
+        const data = await Auth.request('/jobs');
+        ALL_JOBS = Array.isArray(data.jobs) ? data.jobs : [];
+        FILTERED_JOBS = [...ALL_JOBS];
+        renderJobs();
+      } catch (error) {
+        document.getElementById('jobsGrid').innerHTML = `
+          <div class="card" style="padding:24px;text-align:center;">
+            <h3 style="margin-bottom:8px;">Failed to load jobs</h3>
+            <p style="color:var(--text-secondary);font-size:.9rem;">
+              ${escapeHtml(error.message || 'Could not fetch jobs from backend.')}
+            </p>
+          </div>
+        `;
+        showAlert('alert-danger', error.message || 'Failed to load jobs.');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('hamburger')?.addEventListener('click', () => {
+        document.getElementById('navLinks')?.classList.toggle('open');
+      });
+
+      document.getElementById('logoutBtn')?.addEventListener('click', () => {
+        Auth.logout('jobfeed.html');
+      });
+
+      const token = Auth.getToken();
+
+      if (!token) {
+        setGuestUI();
+      } else {
+        const cachedUser = Auth.getCachedUser();
+        if (cachedUser) setUserUI(cachedUser);
+
+        try {
+          const user = await Auth.fetchMe();
+          setUserUI(user);
+        } catch (error) {
+          Auth.clearSession();
+          setGuestUI();
+        }
+      }
+
+      await loadJobs();
+
+      document.getElementById('searchInput')?.addEventListener('input', applyFilters);
+      document.getElementById('skillFilterInput')?.addEventListener('input', applyFilters);
+
+      document.getElementById('clearFiltersBtn')?.addEventListener('click', () => {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('skillFilterInput').value = '';
+        FILTERED_JOBS = [...ALL_JOBS];
+        renderJobs();
+      });
+    });
+  </script>
+
+  <style>
+    .jobfeed-toolbar {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 180px;
+      gap: 16px;
+      align-items: end;
+    }
+
+    .toolbar-field {
+      min-width: 0;
+    }
+
+    .toolbar-btn {
+      display: flex;
+      align-items: end;
+    }
+
+    @media (max-width: 900px) {
+      .jobfeed-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar-btn {
+        align-items: stretch;
+      }
+    }
+  </style>
+
+</body>
+
+</html>

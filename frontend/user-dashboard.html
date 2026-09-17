@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard – CareerStack</title>
+  <meta name="description"
+    content="Analyze your skill match for target job roles, identify missing skills, and discover recommended courses with CareerStack." />
+  <link rel="stylesheet" href="style.css" />
+  <script src="theme.js" defer></script>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🚀</div>
+        <span class="gradient-text">CareerStack</span>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="jobfeed.html">Job Feed</a>
+        <a href="income.html">Income Tracker</a>
+        <a href="user-dashboard.html" class="active">Dashboard</a>
+        <a href="admin-dashboard.html" id="adminNavLink" style="display:none;">Admin</a>
+
+        <button id="logoutBtn" class="btn btn-outline"
+          style="padding:7px 16px;font-size:.85rem;border:none;cursor:pointer;">
+          Logout
+        </button>
+      </div>
+
+      <div class="nav-right">
+        <button id="themeToggle" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <h1>🎯 <span class="gradient-text">Skill Match Dashboard</span></h1>
+      <p>
+        Compare your current skills against real job roles, identify missing skills,
+        and discover the courses that can help you close the gap.
+      </p>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <section class="section">
+    <div class="container">
+
+      <!-- TOP STATS -->
+      <div class="stats-admin" style="margin-bottom:24px;">
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(79,142,247,.12);">🎯</div>
+          <div class="sc-value" id="selectedJobPreview">—</div>
+          <div class="sc-label">Selected Role</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(0,180,138,.12);">📊</div>
+          <div class="sc-value" id="topMatchPreview">0%</div>
+          <div class="sc-label">Current Match</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(247,146,79,.12);">🧠</div>
+          <div class="sc-value" id="missingCountPreview">0</div>
+          <div class="sc-label">Missing Skills</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(124,92,252,.12);">📚</div>
+          <div class="sc-value" id="courseCountPreview">0</div>
+          <div class="sc-label">Suggested Courses</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:420px 1fr;gap:24px;align-items:start;" id="dashboardGrid">
+
+        <!-- LEFT PANEL -->
+        <div>
+          <div class="card" style="padding:24px;">
+            <h3 style="margin-bottom:8px;">Run Skill Match</h3>
+            <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:18px;">
+              Enter your current skills and compare them with a target job role.
+            </p>
+
+            <div id="matchErr" class="alert alert-danger" style="display:none;"></div>
+
+            <div class="form-group">
+              <label class="form-label" for="jobSelect">Select Job Role</label>
+              <select id="jobSelect" class="form-control">
+                <option value="">-- Loading job roles... --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="skillInput">Your Current Skills (comma-separated)</label>
+              <textarea id="skillInput" class="form-control" rows="6"
+                placeholder="e.g. Python, SQL, React, Docker, MongoDB"></textarea>
+            </div>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button id="matchBtn" class="btn btn-primary" style="flex:1;justify-content:center;">
+                Analyze Skill Match
+              </button>
+              <button id="clearMatchBtn" class="btn btn-outline" style="justify-content:center;">
+                Clear
+              </button>
+            </div>
+
+            <div style="margin-top:18px;padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--surface-2);">
+              <div style="font-size:.82rem;color:var(--text-secondary);margin-bottom:6px;">Tip</div>
+              <div style="font-size:.84rem;color:var(--text-secondary);line-height:1.6;">
+                Enter skills exactly as you know them (e.g. Python, TensorFlow, SQL, AWS).
+                CareerStack will compare them with the role’s required skills and recommend courses for the missing ones.
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding:24px;margin-top:20px;">
+            <h3 style="margin-bottom:8px;">How This Helps</h3>
+            <p style="font-size:.84rem;color:var(--text-secondary);margin-bottom:14px;">
+              This is the core CareerStack flow.
+            </p>
+
+            <div style="display:grid;gap:12px;">
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div class="feature-icon feature-icon-blue" style="width:38px;height:38px;font-size:1rem;">1</div>
+                <div>
+                  <h4 style="font-size:.9rem;margin-bottom:4px;">Select a target role</h4>
+                  <p style="font-size:.8rem;color:var(--text-secondary);">Pick a role from Job Feed or here directly.</p>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div class="feature-icon feature-icon-green" style="width:38px;height:38px;font-size:1rem;">2</div>
+                <div>
+                  <h4 style="font-size:.9rem;margin-bottom:4px;">Compare your skills</h4>
+                  <p style="font-size:.8rem;color:var(--text-secondary);">CareerStack finds what you already have.</p>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div class="feature-icon feature-icon-orange" style="width:38px;height:38px;font-size:1rem;">3</div>
+                <div>
+                  <h4 style="font-size:.9rem;margin-bottom:4px;">Find skill gaps</h4>
+                  <p style="font-size:.8rem;color:var(--text-secondary);">See exactly what you still need to learn.</p>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div class="feature-icon feature-icon-purple" style="width:38px;height:38px;font-size:1rem;">4</div>
+                <div>
+                  <h4 style="font-size:.9rem;margin-bottom:4px;">Get course recommendations</h4>
+                  <p style="font-size:.8rem;color:var(--text-secondary);">Learn the missing skills faster with curated courses.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div>
+
+          <!-- RESULT SECTION -->
+          <div id="matchResultSection" style="display:none;">
+
+            <!-- MATCH SUMMARY -->
+            <div class="card" style="padding:24px;margin-bottom:20px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+                <div>
+                  <h3 style="margin-bottom:4px;">Match Result</h3>
+                  <p style="font-size:.82rem;color:var(--text-secondary);">
+                    Role: <strong id="selectedRoleLabel">—</strong>
+                  </p>
+                </div>
+                <span class="tag tag-blue" id="matchLevelLabel">—</span>
+              </div>
+
+              <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+                <div style="font-size:2.4rem;font-weight:800;line-height:1;" class="gradient-text" id="matchPct">0%</div>
+                <div style="font-size:.9rem;color:var(--text-secondary);padding-bottom:4px;">
+                  overall match score
+                </div>
+              </div>
+
+              <div style="width:100%;height:14px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin-bottom:10px;">
+                <div id="matchProgressFill"
+                  style="width:0%;height:100%;border-radius:999px;background:var(--accent-1);transition:all .35s ease;">
+                </div>
+              </div>
+
+              <div style="font-size:.82rem;color:var(--text-secondary);">
+                Progress: <span id="matchPctLabel">0%</span>
+              </div>
+            </div>
+
+            <!-- MATCH DETAILS -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" id="matchDetailsGrid">
+
+              <div class="card" style="padding:24px;">
+                <h3 style="margin-bottom:12px;">✅ Matched Skills</h3>
+                <div id="matchedChips"></div>
+              </div>
+
+              <div class="card" style="padding:24px;">
+                <h3 style="margin-bottom:12px;">⚠️ Missing Skills</h3>
+                <div id="missingChips"></div>
+              </div>
+
+            </div>
+
+            <!-- COURSES -->
+            <div class="card" style="padding:24px;margin-top:20px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+                <div>
+                  <h3 style="margin-bottom:4px;">📚 Recommended Courses</h3>
+                  <p style="font-size:.82rem;color:var(--text-secondary);">
+                    Courses mapped to the missing skills for this role
+                  </p>
+                </div>
+                <span class="tag tag-green">Upskilling Path</span>
+              </div>
+
+              <div id="courseGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+                <!-- populated by skillmatch.js -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- EMPTY STATE -->
+          <div id="emptyStateCard" class="card" style="padding:28px;">
+            <h3 style="margin-bottom:10px;">Ready to analyze your career fit?</h3>
+            <p style="color:var(--text-secondary);font-size:.9rem;line-height:1.7;margin-bottom:18px;">
+              Select a job role, enter your current skills, and CareerStack will calculate your skill match,
+              identify missing skills, and recommend courses that help you close the gap.
+            </p>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+              <div style="padding:16px;border:1px solid var(--border);border-radius:16px;background:var(--surface-2);">
+                <div style="font-size:1.2rem;margin-bottom:8px;">🎯</div>
+                <div style="font-weight:700;margin-bottom:6px;">Target Role Matching</div>
+                <div style="font-size:.82rem;color:var(--text-secondary);">Know how close you are to a target role.</div>
+              </div>
+
+              <div style="padding:16px;border:1px solid var(--border);border-radius:16px;background:var(--surface-2);">
+                <div style="font-size:1.2rem;margin-bottom:8px;">🧠</div>
+                <div style="font-weight:700;margin-bottom:6px;">Skill Gap Detection</div>
+                <div style="font-size:.82rem;color:var(--text-secondary);">See exactly what skills are missing.</div>
+              </div>
+
+              <div style="padding:16px;border:1px solid var(--border);border-radius:16px;background:var(--surface-2);">
+                <div style="font-size:1.2rem;margin-bottom:8px;">📚</div>
+                <div style="font-weight:700;margin-bottom:6px;">Course Suggestions</div>
+                <div style="font-size:.82rem;color:var(--text-secondary);">Get learning paths for missing skills.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© 2026 CareerStack. Built for SDG Goal 8 – Decent Work &amp; Economic Growth.</span>
+        <a href="jobfeed.html" class="btn btn-outline" style="padding:6px 14px;font-size:.82rem;">Browse Roles →</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="auth.js"></script>
+  <script src="skillmatch.js"></script>
+
+  <script>
+    function getJobIdFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('job');
+    }
+
+    function updatePreviewCardsFromResult() {
+      const selectedRole = document.getElementById('selectedRoleLabel')?.textContent || '—';
+      const matchPct = document.getElementById('matchPct')?.textContent || '0%';
+
+      const missingChips = document.getElementById('missingChips');
+      const courseGrid = document.getElementById('courseGrid');
+
+      let missingCount = 0;
+      let courseCount = 0;
+
+      if (missingChips) {
+        missingCount = missingChips.querySelectorAll('.skill-chip').length;
+      }
+
+      if (courseGrid) {
+        courseCount = courseGrid.querySelectorAll('.card').length;
+      }
+
+      document.getElementById('selectedJobPreview').textContent = selectedRole;
+      document.getElementById('topMatchPreview').textContent = matchPct;
+      document.getElementById('missingCountPreview').textContent = String(missingCount);
+      document.getElementById('courseCountPreview').textContent = String(courseCount);
+    }
+
+    function setupMatchObserver() {
+      const resultSection = document.getElementById('matchResultSection');
+      const emptyStateCard = document.getElementById('emptyStateCard');
+
+      if (!resultSection) return;
+
+      const observer = new MutationObserver(() => {
+        const visible = resultSection.style.display !== 'none';
+
+        if (emptyStateCard) {
+          emptyStateCard.style.display = visible ? 'none' : '';
+        }
+
+        if (visible) {
+          updatePreviewCardsFromResult();
+        }
+      });
+
+      observer.observe(resultSection, {
+        attributes: true,
+        attributeFilter: ['style']
+      });
+
+      const detailTargets = [
+        document.getElementById('selectedRoleLabel'),
+        document.getElementById('matchPct'),
+        document.getElementById('missingChips'),
+        document.getElementById('courseGrid')
+      ].filter(Boolean);
+
+      detailTargets.forEach(el => {
+        const detailObserver = new MutationObserver(() => {
+          if (resultSection.style.display !== 'none') {
+            updatePreviewCardsFromResult();
+          }
+        });
+
+        detailObserver.observe(el, {
+          childList: true,
+          subtree: true,
+          characterData: true
+        });
+      });
+    }
+
+    function setupClearButton() {
+      document.getElementById('clearMatchBtn')?.addEventListener('click', () => {
+        const skillInput = document.getElementById('skillInput');
+        const jobSelect = document.getElementById('jobSelect');
+        const matchResultSection = document.getElementById('matchResultSection');
+        const emptyStateCard = document.getElementById('emptyStateCard');
+        const matchErr = document.getElementById('matchErr');
+
+        if (skillInput) skillInput.value = '';
+        if (jobSelect) jobSelect.value = '';
+
+        if (matchResultSection) matchResultSection.style.display = 'none';
+        if (emptyStateCard) emptyStateCard.style.display = '';
+
+        if (matchErr) matchErr.style.display = 'none';
+
+        document.getElementById('selectedJobPreview').textContent = '—';
+        document.getElementById('topMatchPreview').textContent = '0%';
+        document.getElementById('missingCountPreview').textContent = '0';
+        document.getElementById('courseCountPreview').textContent = '0';
+
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('job')) {
+          params.delete('job');
+          const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+          window.history.replaceState({}, '', newUrl);
+        }
+      });
+    }
+
+    async function preselectJobFromQuery() {
+      const jobId = getJobIdFromQuery();
+      if (!jobId) return;
+
+      const jobSelect = document.getElementById('jobSelect');
+      if (!jobSelect) return;
+
+      let tries = 0;
+      const maxTries = 30;
+
+      const interval = setInterval(() => {
+        const optionExists = [...jobSelect.options].some(opt => opt.value === jobId);
+
+        if (optionExists) {
+          jobSelect.value = jobId;
+
+          const selectedOption = jobSelect.options[jobSelect.selectedIndex];
+          if (selectedOption) {
+            document.getElementById('selectedJobPreview').textContent = selectedOption.textContent || '—';
+          }
+
+          clearInterval(interval);
+        }
+
+        tries++;
+        if (tries >= maxTries) {
+          clearInterval(interval);
+        }
+      }, 200);
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await Auth.requireAuth();
+      if (!user) return;
+
+      Auth.showAdminNav(user);
+
+      document.getElementById('hamburger')?.addEventListener('click', () => {
+        document.getElementById('navLinks')?.classList.toggle('open');
+      });
+
+      document.getElementById('logoutBtn')?.addEventListener('click', () => {
+        Auth.logout('index.html');
+      });
+
+      setupMatchObserver();
+      setupClearButton();
+      await preselectJobFromQuery();
+
+      // Update preview when role changes manually
+      document.getElementById('jobSelect')?.addEventListener('change', (e) => {
+        const selectedText = e.target.options[e.target.selectedIndex]?.textContent || '—';
+        document.getElementById('selectedJobPreview').textContent = selectedText;
+      });
+
+      // After match button click, allow DOM update then sync preview
+      document.getElementById('matchBtn')?.addEventListener('click', () => {
+        setTimeout(updatePreviewCardsFromResult, 50);
+      });
+    });
+  </script>
+
+  <style>
+    @media (max-width: 980px) {
+      #dashboardGrid {
+        grid-template-columns: 1fr !important;
+      }
+
+      #matchDetailsGrid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+
+</body>
+
+</html>

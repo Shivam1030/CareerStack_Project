@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard – CareerStack</title>
+  <meta name="description"
+    content="Admin dashboard for managing jobs and courses in CareerStack." />
+  <link rel="stylesheet" href="style.css" />
+  <script src="theme.js" defer></script>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🚀</div>
+        <span class="gradient-text">CareerStack</span>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="jobfeed.html">Job Feed</a>
+        <a href="income.html">Income Tracker</a>
+        <a href="user-dashboard.html">Dashboard</a>
+        <a href="admin-dashboard.html" class="active" id="adminNavLink">Admin</a>
+        <button id="logoutBtn" class="btn btn-outline"
+          style="padding:7px 16px;font-size:.85rem;border:none;cursor:pointer;">
+          Logout
+        </button>
+      </div>
+
+      <div class="nav-right">
+        <button id="themeToggle" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container">
+      <h1>🛠️ <span class="gradient-text">Admin Dashboard</span></h1>
+      <p>Manage job roles and skill-tagged courses that power CareerStack’s skill-gap and learning recommendations.</p>
+    </div>
+  </div>
+
+  <!-- MAIN SECTION -->
+  <section class="section">
+    <div class="container">
+
+      <!-- STATS -->
+      <div class="stats-admin">
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(79,142,247,.12);">💼</div>
+          <div class="sc-value" id="jobCount">0</div>
+          <div class="sc-label">Total Jobs</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(0,180,138,.12);">📚</div>
+          <div class="sc-value" id="courseCount">0</div>
+          <div class="sc-label">Total Courses</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(247,146,79,.12);">🎯</div>
+          <div class="sc-value" id="skillsTracked">0</div>
+          <div class="sc-label">Unique Skills Tracked</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="sc-icon" style="background:rgba(124,92,252,.12);">⚡</div>
+          <div class="sc-value" id="systemStatus">Live</div>
+          <div class="sc-label">System Status</div>
+        </div>
+      </div>
+
+      <div id="adminAlert" class="alert" style="display:none;"></div>
+
+      <!-- FORMS -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:26px;" id="adminFormsGrid">
+
+        <!-- ADD JOB -->
+        <div class="card" style="padding:24px;">
+          <h3 style="margin-bottom:8px;">Add Job Role</h3>
+          <p style="font-size:.84rem;color:var(--text-secondary);margin-bottom:18px;">
+            Add a new job role with required skills for skill-gap analysis.
+          </p>
+
+          <form id="jobForm">
+            <div class="form-group">
+              <label class="form-label" for="jobTitle">Job Title</label>
+              <input type="text" id="jobTitle" class="form-control" placeholder="e.g. AI / ML Engineer" required />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="jobCompany">Company</label>
+                <input type="text" id="jobCompany" class="form-control" placeholder="e.g. OpenAI" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="jobType">Type</label>
+                <input type="text" id="jobType" class="form-control" placeholder="e.g. Full-time" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="jobLocation">Location</label>
+                <input type="text" id="jobLocation" class="form-control" placeholder="e.g. Remote / Bengaluru" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="jobSalary">Salary</label>
+                <input type="text" id="jobSalary" class="form-control" placeholder="e.g. ₹12L - ₹20L" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="jobSkills">Required Skills (comma-separated)</label>
+              <input type="text" id="jobSkills" class="form-control"
+                placeholder="e.g. Python, TensorFlow, SQL, Pandas" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="jobDescription">Description</label>
+              <textarea id="jobDescription" class="form-control" rows="4"
+                placeholder="Short description of the job role"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="jobApplyUrl">Apply URL (optional)</label>
+              <input type="url" id="jobApplyUrl" class="form-control"
+                placeholder="https://company.com/jobs/..." />
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+              Add Job
+            </button>
+          </form>
+        </div>
+
+        <!-- ADD COURSE -->
+        <div class="card" style="padding:24px;">
+          <h3 style="margin-bottom:8px;">Add Course</h3>
+          <p style="font-size:.84rem;color:var(--text-secondary);margin-bottom:18px;">
+            Add skill-tagged courses so users get relevant recommendations for missing skills.
+          </p>
+
+          <form id="courseForm">
+            <div class="form-group">
+              <label class="form-label" for="courseTitle">Course Title</label>
+              <input type="text" id="courseTitle" class="form-control"
+                placeholder="e.g. TensorFlow in Practice" required />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="courseProvider">Provider</label>
+                <input type="text" id="courseProvider" class="form-control"
+                  placeholder="e.g. Coursera / YouTube / Udemy" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="courseCategory">Category</label>
+                <input type="text" id="courseCategory" class="form-control"
+                  placeholder="e.g. AI / ML" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="coursePrice">Price</label>
+                <input type="number" id="coursePrice" class="form-control" min="0" step="0.01"
+                  placeholder="0 for free" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="courseLevel">Level</label>
+                <select id="courseLevel" class="form-control">
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="courseSkills">Skills Covered (comma-separated)</label>
+              <input type="text" id="courseSkills" class="form-control"
+                placeholder="e.g. TensorFlow, Python, Neural Networks" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="courseDescription">Description</label>
+              <textarea id="courseDescription" class="form-control" rows="4"
+                placeholder="Short description of the course"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="courseLink">Course Link</label>
+              <input type="url" id="courseLink" class="form-control"
+                placeholder="https://example.com/course" />
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+              Add Course
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- TABLES -->
+      <div style="display:grid;grid-template-columns:1fr;gap:22px;">
+
+        <!-- JOBS TABLE -->
+        <div class="card" style="padding:24px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+            <div>
+              <h3 style="margin-bottom:4px;">Jobs</h3>
+              <p style="font-size:.82rem;color:var(--text-secondary);">Manage all job roles available in CareerStack</p>
+            </div>
+            <span class="tag tag-blue">Job Feed Data</span>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Company</th>
+                  <th>Skills</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="jobsTableBody">
+                <tr>
+                  <td colspan="4" style="text-align:center;color:var(--text-muted);">No jobs found</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- COURSES TABLE -->
+        <div class="card" style="padding:24px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+            <div>
+              <h3 style="margin-bottom:4px;">Courses</h3>
+              <p style="font-size:.82rem;color:var(--text-secondary);">Manage skill-tagged courses used for recommendations</p>
+            </div>
+            <span class="tag tag-green">Recommendation Data</span>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Provider</th>
+                  <th>Skills</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="coursesTableBody">
+                <tr>
+                  <td colspan="4" style="text-align:center;color:var(--text-muted);">No courses found</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© 2026 CareerStack. Built for SDG Goal 8 – Decent Work &amp; Economic Growth.</span>
+        <a href="index.html" class="btn btn-outline" style="padding:6px 14px;font-size:.82rem;">← Home</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="auth.js"></script>
+
+  <script>
+    let JOBS = [];
+    let COURSES = [];
+
+    function showAlert(type, message) {
+      const alert = document.getElementById('adminAlert');
+      if (!alert) return;
+
+      alert.className = `alert ${type}`;
+      alert.textContent = message;
+      alert.style.display = 'block';
+
+      setTimeout(() => {
+        alert.style.display = 'none';
+      }, 2500);
+    }
+
+    function escapeHtml(str = '') {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function parseSkills(input) {
+      return String(input || '')
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean);
+    }
+
+    function updateStats() {
+      document.getElementById('jobCount').textContent = String(JOBS.length);
+      document.getElementById('courseCount').textContent = String(COURSES.length);
+
+      const skillSet = new Set();
+
+      JOBS.forEach(job => {
+        (job.skills || []).forEach(skill => skillSet.add(String(skill).trim().toLowerCase()));
+      });
+
+      COURSES.forEach(course => {
+        (course.skills || []).forEach(skill => skillSet.add(String(skill).trim().toLowerCase()));
+      });
+
+      document.getElementById('skillsTracked').textContent = String(skillSet.size);
+    }
+
+    function renderJobsTable() {
+      const tbody = document.getElementById('jobsTableBody');
+
+      if (!JOBS.length) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="4" style="text-align:center;color:var(--text-muted);">No jobs found</td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = JOBS.map(job => `
+        <tr>
+          <td>${escapeHtml(job.title || '')}</td>
+          <td>${escapeHtml(job.company || '')}</td>
+          <td>
+            ${(job.skills || []).slice(0, 4).map(skill => `<span class="skill-chip">${escapeHtml(skill)}</span>`).join(' ')}
+            ${(job.skills || []).length > 4 ? `<span style="font-size:.75rem;color:var(--text-muted);">+${(job.skills || []).length - 4}</span>` : ''}
+          </td>
+          <td>
+            <button class="btn btn-outline" style="padding:6px 10px;font-size:.78rem;"
+              onclick="deleteJob('${job._id}')">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderCoursesTable() {
+      const tbody = document.getElementById('coursesTableBody');
+
+      if (!COURSES.length) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="4" style="text-align:center;color:var(--text-muted);">No courses found</td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = COURSES.map(course => `
+        <tr>
+          <td>${escapeHtml(course.title || '')}</td>
+          <td>${escapeHtml(course.provider || '')}</td>
+          <td>
+            ${(course.skills || []).slice(0, 4).map(skill => `<span class="skill-chip">${escapeHtml(skill)}</span>`).join(' ')}
+            ${(course.skills || []).length > 4 ? `<span style="font-size:.75rem;color:var(--text-muted);">+${(course.skills || []).length - 4}</span>` : ''}
+          </td>
+          <td>
+            <button class="btn btn-outline" style="padding:6px 10px;font-size:.78rem;"
+              onclick="deleteCourse('${course._id}')">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadJobs() {
+      const data = await Auth.request('/jobs');
+      JOBS = Array.isArray(data.jobs) ? data.jobs : [];
+      renderJobsTable();
+      updateStats();
+    }
+
+    async function loadCourses() {
+      const data = await Auth.request('/courses');
+      COURSES = Array.isArray(data.courses) ? data.courses : [];
+      renderCoursesTable();
+      updateStats();
+    }
+
+    window.deleteJob = async function (id) {
+      const ok = confirm('Delete this job?');
+      if (!ok) return;
+
+      try {
+        await Auth.request(`/admin/jobs/${id}`, {
+          method: 'DELETE'
+        });
+
+        showAlert('alert-success', 'Job deleted successfully.');
+        await loadJobs();
+      } catch (error) {
+        showAlert('alert-danger', error.message || 'Failed to delete job.');
+      }
+    };
+
+    window.deleteCourse = async function (id) {
+      const ok = confirm('Delete this course?');
+      if (!ok) return;
+
+      try {
+        await Auth.request(`/admin/courses/${id}`, {
+          method: 'DELETE'
+        });
+
+        showAlert('alert-success', 'Course deleted successfully.');
+        await loadCourses();
+      } catch (error) {
+        showAlert('alert-danger', error.message || 'Failed to delete course.');
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = await Auth.requireAdmin();
+      if (!user) return;
+
+      document.getElementById('hamburger')?.addEventListener('click', () => {
+        document.getElementById('navLinks')?.classList.toggle('open');
+      });
+
+      document.getElementById('logoutBtn')?.addEventListener('click', () => Auth.logout());
+
+      try {
+        await Promise.all([loadJobs(), loadCourses()]);
+      } catch (error) {
+        showAlert('alert-danger', error.message || 'Failed to load admin data.');
+      }
+
+      // JOB FORM
+      document.getElementById('jobForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const payload = {
+          title: document.getElementById('jobTitle').value.trim(),
+          company: document.getElementById('jobCompany').value.trim(),
+          type: document.getElementById('jobType').value.trim() || 'Full-time',
+          location: document.getElementById('jobLocation').value.trim() || 'Remote',
+          salary: document.getElementById('jobSalary').value.trim(),
+          skills: parseSkills(document.getElementById('jobSkills').value),
+          description: document.getElementById('jobDescription').value.trim(),
+          applyUrl: document.getElementById('jobApplyUrl').value.trim()
+        };
+
+        if (!payload.title || !payload.company || !payload.skills.length) {
+          showAlert('alert-warning', 'Please fill required job fields.');
+          return;
+        }
+
+        try {
+          await Auth.request('/admin/jobs', {
+            method: 'POST',
+            body: JSON.stringify(payload)
+          });
+
+          document.getElementById('jobForm').reset();
+          showAlert('alert-success', 'Job added successfully.');
+          await loadJobs();
+        } catch (error) {
+          showAlert('alert-danger', error.message || 'Failed to add job.');
+        }
+      });
+
+      // COURSE FORM
+      document.getElementById('courseForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const payload = {
+          title: document.getElementById('courseTitle').value.trim(),
+          provider: document.getElementById('courseProvider').value.trim(),
+          category: document.getElementById('courseCategory').value.trim(),
+          price: Number(document.getElementById('coursePrice').value || 0),
+          level: document.getElementById('courseLevel').value,
+          skills: parseSkills(document.getElementById('courseSkills').value),
+          description: document.getElementById('courseDescription').value.trim(),
+          link: document.getElementById('courseLink').value.trim()
+        };
+
+        if (!payload.title || !payload.skills.length) {
+          showAlert('alert-warning', 'Please fill required course fields.');
+          return;
+        }
+
+        try {
+          await Auth.request('/admin/courses', {
+            method: 'POST',
+            body: JSON.stringify(payload)
+          });
+
+          document.getElementById('courseForm').reset();
+          showAlert('alert-success', 'Course added successfully.');
+          await loadCourses();
+        } catch (error) {
+          showAlert('alert-danger', error.message || 'Failed to add course.');
+        }
+      });
+    });
+  </script>
+
+  <style>
+    @media (max-width: 900px) {
+      #adminFormsGrid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+
+</body>
+
+</html>

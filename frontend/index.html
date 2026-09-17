@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerStack – Skill Development & Career Growth</title>
+  <meta name="description"
+    content="CareerStack helps users identify skill gaps for target roles, measure career readiness, and discover courses to improve employability." />
+  <link rel="stylesheet" href="style.css" />
+  <script src="theme.js" defer></script>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🚀</div>
+        <span class="gradient-text">CareerStack</span>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="index.html" class="active">Home</a>
+        <a href="jobfeed.html">Job Feed</a>
+        <a href="income.html">Income Tracker</a>
+
+        <!-- Visible only after login -->
+        <a href="user-dashboard.html" id="dashboardNavLink" style="display:none;">Dashboard</a>
+        <a href="admin-dashboard.html" id="adminNavLink" style="display:none;">Admin</a>
+
+        <!-- Guest actions -->
+        <a href="login.html" id="loginNavLink" class="btn btn-outline"
+          style="padding:7px 16px;font-size:.85rem;">Login</a>
+        <a href="register.html" id="registerNavLink" class="btn btn-primary"
+          style="padding:7px 16px;font-size:.85rem;">Get Started</a>
+
+        <!-- Logged in action -->
+        <button id="logoutBtn" class="btn btn-outline"
+          style="padding:7px 16px;font-size:.85rem;border:none;cursor:pointer;display:none;">
+          Logout
+        </button>
+      </div>
+
+      <div class="nav-right">
+        <button id="themeToggle" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        🌍 Aligned with SDG Goal 8 – Decent Work & Economic Growth
+      </div>
+
+      <h1>
+        Build Skills.<br />
+        <span class="gradient-text">Bridge Skill Gaps. Grow Your Career.</span>
+      </h1>
+
+      <p>
+        CareerStack helps you evaluate how well your current skills match real job roles,
+        identify missing competencies, and discover recommended courses that improve your
+        readiness for high-growth careers.
+      </p>
+
+      <div class="hero-actions" id="heroGuestActions">
+        <a href="register.html" class="btn btn-primary">🚀 Start Free</a>
+        <a href="jobfeed.html" class="btn btn-outline">Explore Roles</a>
+      </div>
+
+      <div class="hero-actions" id="heroUserActions" style="display:none;">
+        <a href="user-dashboard.html" class="btn btn-primary">⚡ Check My Skill Match</a>
+        <a href="jobfeed.html" class="btn btn-outline">Browse Job Roles</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Job Roles Tracked</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">200+</div>
+          <div class="stat-label">Skill Mappings</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">120+</div>
+          <div class="stat-label">Course References</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">User Satisfaction</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRENDING ROLES -->
+  <section class="section" id="trending">
+    <div class="container">
+      <div class="section-title">🔥 Trending Career Paths</div>
+      <p class="section-sub">Popular high-growth roles you can evaluate against your current skills</p>
+
+      <div class="jobs-grid">
+
+        <div class="card job-card">
+          <div class="job-card-header">
+            <div class="job-icon" style="background:rgba(124,92,252,.15);">🛡️</div>
+            <div>
+              <h3>Cybersecurity Analyst</h3>
+              <p class="company">Security & Risk Domain</p>
+            </div>
+          </div>
+          <div class="skills-list">
+            <span class="skill-chip">Network Security</span>
+            <span class="skill-chip">SIEM</span>
+            <span class="skill-chip">Python</span>
+            <span class="skill-chip">Risk Assessment</span>
+          </div>
+          <div class="job-meta">
+            <span>💰 High Growth</span>
+            <span>📍 Remote / On-site</span>
+            <span class="tag tag-green">In Demand</span>
+          </div>
+          <a href="jobfeed.html" class="btn btn-outline"
+            style="width:100%;justify-content:center;margin-top:14px;">Check Match</a>
+        </div>
+
+        <div class="card job-card">
+          <div class="job-card-header">
+            <div class="job-icon" style="background:rgba(79,142,247,.15);">🤖</div>
+            <div>
+              <h3>AI / ML Engineer</h3>
+              <p class="company">Artificial Intelligence Domain</p>
+            </div>
+          </div>
+          <div class="skills-list">
+            <span class="skill-chip">Python</span>
+            <span class="skill-chip">TensorFlow</span>
+            <span class="skill-chip">PyTorch</span>
+            <span class="skill-chip">ML Algorithms</span>
+          </div>
+          <div class="job-meta">
+            <span>💰 Premium Roles</span>
+            <span>📍 Remote Friendly</span>
+            <span class="tag tag-blue">Explosive Growth</span>
+          </div>
+          <a href="jobfeed.html" class="btn btn-outline"
+            style="width:100%;justify-content:center;margin-top:14px;">Check Match</a>
+        </div>
+
+        <div class="card job-card">
+          <div class="job-card-header">
+            <div class="job-icon" style="background:rgba(0,212,164,.15);">📊</div>
+            <div>
+              <h3>Data Scientist</h3>
+              <p class="company">Analytics & Intelligence Domain</p>
+            </div>
+          </div>
+          <div class="skills-list">
+            <span class="skill-chip">Python</span>
+            <span class="skill-chip">SQL</span>
+            <span class="skill-chip">Statistics</span>
+            <span class="skill-chip">Pandas</span>
+          </div>
+          <div class="job-meta">
+            <span>💰 Strong Salaries</span>
+            <span>📍 Hybrid / Remote</span>
+            <span class="tag tag-orange">Top Paid</span>
+          </div>
+          <a href="jobfeed.html" class="btn btn-outline"
+            style="width:100%;justify-content:center;margin-top:14px;">Check Match</a>
+        </div>
+
+        <div class="card job-card">
+          <div class="job-card-header">
+            <div class="job-icon" style="background:rgba(247,146,79,.15);">☁️</div>
+            <div>
+              <h3>Cloud Engineer</h3>
+              <p class="company">Cloud & Infrastructure Domain</p>
+            </div>
+          </div>
+          <div class="skills-list">
+            <span class="skill-chip">AWS</span>
+            <span class="skill-chip">Docker</span>
+            <span class="skill-chip">Kubernetes</span>
+            <span class="skill-chip">Terraform</span>
+          </div>
+          <div class="job-meta">
+            <span>💰 Career Growth</span>
+            <span>📍 Remote</span>
+            <span class="tag tag-purple">Growing Fast</span>
+          </div>
+          <a href="jobfeed.html" class="btn btn-outline"
+            style="width:100%;justify-content:center;margin-top:14px;">Check Match</a>
+        </div>
+
+      </div>
+
+      <div style="text-align:center;margin-top:36px;">
+        <a href="jobfeed.html" class="btn btn-primary">View All Job Roles →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section band-blue">
+    <div class="container">
+      <div class="section-title">⚙️ How CareerStack Works</div>
+      <p class="section-sub">A focused product flow built around skill-gap analysis and learning recommendations</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;">
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-blue">1️⃣</div>
+          <h4 style="margin-bottom:8px;">Choose a Job Role</h4>
+          <p style="font-size:.85rem;color:var(--text-secondary);">
+            Explore curated job roles and select the one you want to target.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-green">2️⃣</div>
+          <h4 style="margin-bottom:8px;">Enter Your Skills</h4>
+          <p style="font-size:.85rem;color:var(--text-secondary);">
+            Add your current skills so CareerStack can compare them against role requirements.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-purple">3️⃣</div>
+          <h4 style="margin-bottom:8px;">See Missing Skills</h4>
+          <p style="font-size:.85rem;color:var(--text-secondary);">
+            Instantly view your match percentage, matched skills, and exact skill gaps.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-orange">4️⃣</div>
+          <h4 style="margin-bottom:8px;">Get Course Suggestions</h4>
+          <p style="font-size:.85rem;color:var(--text-secondary);">
+            Receive relevant course recommendations for the missing skills you need to learn.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SDG IMPACT -->
+  <section class="section">
+    <div class="container" style="text-align:center;">
+      <div class="sdg-badge" style="margin:0 auto 20px;font-size:.9rem;padding:8px 20px;">
+        🌍 United Nations SDG Goal 8
+      </div>
+
+      <h2 class="section-title" style="margin-bottom:12px;">
+        Promoting Decent Work &amp;<br />
+        <span class="gradient-text">Economic Growth</span>
+      </h2>
+
+      <p style="color:var(--text-secondary);max-width:620px;margin:0 auto 40px;">
+        CareerStack is built around the idea that better career outcomes come from skill clarity,
+        targeted learning, and accessible guidance for growing into real-world roles.
+      </p>
+
+      <div
+        style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:920px;margin:0 auto;">
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-blue">🎯</div>
+          <h4 style="margin-bottom:8px;">Skill Clarity</h4>
+          <p style="font-size:.85rem;color:var(--text-secondary);">
+            Know exactly what skills a target role expects from you.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-green">📈</div>
+          <h4 style="margin-bottom:8px;">Growth Tracking</h4>
+          <p style="font-size:.85rem;color:var(--text-secondary);">
+            Track career and income progress as you build employable skills.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-purple">📚</div>
+          <h4 style="margin-bottom:8px;">Guided Learning</h4>
+          <p style="font-size:.85rem;color:var(--text-secondary);">
+            Get relevant course suggestions mapped to missing skills.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-orange">🤝</div>
+          <h4 style="margin-bottom:8px;">Equal Access</h4>
+          <p style="font-size:.85rem;color:var(--text-secondary);">
+            Make career growth guidance more accessible and structured.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">🚀</div>
+            <span class="gradient-text">CareerStack</span>
+          </a>
+          <p>
+            A career guidance platform focused on skill-gap analysis, course recommendations,
+            and structured career growth.
+          </p>
+          <div class="sdg-badge" style="margin-top:14px;display:inline-flex;">🌍 SDG Goal 8</div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <a href="index.html">Home</a>
+          <a href="jobfeed.html">Job Feed</a>
+          <a href="income.html">Income Tracker</a>
+          <a href="user-dashboard.html">Dashboard</a>
+        </div>
+
+        <div class="footer-col">
+          <h5>Accounts</h5>
+          <a href="login.html">Login</a>
+          <a href="register.html">Register</a>
+          <a href="admin-dashboard.html">Admin Panel</a>
+        </div>
+
+        <div class="footer-col">
+          <h5>Resources</h5>
+          <a href="jobfeed.html">Job Roles</a>
+          <a href="user-dashboard.html">Skill Match</a>
+          <a href="income.html">Income Tracker</a>
+          <a href="#">About SDG 8</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 CareerStack. Built for SDG Goal 8 – Decent Work &amp; Economic Growth.</span>
+        <span>Made for better career outcomes through skill clarity.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="auth.js"></script>
+
+  <script>
+    function setGuestUI() {
+      const loginNavLink = document.getElementById('loginNavLink');
+      const registerNavLink = document.getElementById('registerNavLink');
+      const dashboardNavLink = document.getElementById('dashboardNavLink');
+      const adminNavLink = document.getElementById('adminNavLink');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const heroGuestActions = document.getElementById('heroGuestActions');
+      const heroUserActions = document.getElementById('heroUserActions');
+
+      if (loginNavLink) loginNavLink.style.display = '';
+      if (registerNavLink) registerNavLink.style.display = '';
+      if (dashboardNavLink) dashboardNavLink.style.display = 'none';
+      if (adminNavLink) adminNavLink.style.display = 'none';
+      if (logoutBtn) logoutBtn.style.display = 'none';
+      if (heroGuestActions) heroGuestActions.style.display = '';
+      if (heroUserActions) heroUserActions.style.display = 'none';
+    }
+
+    function setUserUI(user) {
+      const loginNavLink = document.getElementById('loginNavLink');
+      const registerNavLink = document.getElementById('registerNavLink');
+      const dashboardNavLink = document.getElementById('dashboardNavLink');
+      const adminNavLink = document.getElementById('adminNavLink');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const heroGuestActions = document.getElementById('heroGuestActions');
+      const heroUserActions = document.getElementById('heroUserActions');
+
+      if (loginNavLink) loginNavLink.style.display = 'none';
+      if (registerNavLink) registerNavLink.style.display = 'none';
+      if (dashboardNavLink) dashboardNavLink.style.display = '';
+      if (logoutBtn) logoutBtn.style.display = '';
+      if (heroGuestActions) heroGuestActions.style.display = 'none';
+      if (heroUserActions) heroUserActions.style.display = '';
+
+      if (adminNavLink) {
+        adminNavLink.style.display = user?.role === 'admin' ? '' : 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('hamburger')?.addEventListener('click', () => {
+        document.getElementById('navLinks')?.classList.toggle('open');
+      });
+
+      document.getElementById('logoutBtn')?.addEventListener('click', () => {
+        Auth.logout('index.html');
+      });
+
+      const token = Auth.getToken();
+
+      if (!token) {
+        setGuestUI();
+        return;
+      }
+
+      const cachedUser = Auth.getCachedUser();
+      if (cachedUser) {
+        setUserUI(cachedUser);
+      }
+
+      try {
+        const user = await Auth.fetchMe();
+        setUserUI(user);
+      } catch (error) {
+        Auth.clearSession();
+        setGuestUI();
+      }
+    });
+  </script>
+
+</body>
+
+</html>
