@@ -481,5 +481,3 @@ Saurav Bhatt
 ## License
 
 This project is for educational / portfolio use.
-
-```
