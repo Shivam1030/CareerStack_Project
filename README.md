@@ -483,5 +483,3 @@ Saurav Bhatt
 This project is for educational / portfolio use.
 
 ```
-
----
