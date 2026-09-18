@@ -434,31 +434,6 @@ That makes it a more meaningful and differentiated project.
 
 ---
 
-## 📌 Interview-Safe Positioning
-
-### Best way to describe it in interviews:
-
-> CareerStack is a full-stack career guidance platform where users can compare their current skills against target job roles, identify missing skills, and receive course recommendations to bridge those gaps.
-> I designed it so that the job feed is not just a redirection layer — the main product value is the skill-gap analysis and upskilling guidance.
-
-### Important:
-
-Do **not** oversell it as:
-
-* a production-grade recommender system
-* a real-time job aggregation platform
-* an AI-powered career engine (unless you actually built AI into it)
-
-Keep it honest:
-
-* rule-based skill matching
-* curated course recommendation using skill overlap
-* admin-managed backend data
-
-That is strong and believable.
-
----
-
 ## 📈 Project Level Assessment
 
 Compared to a simple CRUD app, CareerStack is:
@@ -497,6 +472,10 @@ Built as a full-stack academic/product-style project focused on:
 * guided learning
 * SDG Goal 8 alignment
 
+Members
+Shivam
+Saurav Bhatt
+
 ---
 
 ## 📜 License
@@ -506,4 +485,3 @@ This project is for educational / portfolio use.
 ```
 
 ---
-
