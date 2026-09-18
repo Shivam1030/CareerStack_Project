@@ -1,14 +1,14 @@
-# 🚀 CareerStack  
+## CareerStack  
 ### Skill Development & Career Growth Platform aligned with **SDG Goal 8 – Decent Work & Economic Growth**
 
 CareerStack is a full-stack web platform that helps users evaluate how well their current skills match a target job role, identify missing skills, and discover recommended courses to bridge those gaps.
 
 Instead of acting like a traditional job board that simply redirects users away, CareerStack is designed as a **career guidance and upskilling platform**.  
-Its core value is helping users understand **what they need to learn next** in order to become job-ready.
+Its core value is helping users understand **what they need to learn next** to become job ready.
 
 ---
 
-## 🌍 Project Vision
+## Project Vision
 
 CareerStack was built around the idea that many students and early-career professionals know *which job they want*, but not always:
 
@@ -27,16 +27,16 @@ This directly supports **UN Sustainable Development Goal 8 (SDG 8)** by promotin
 
 ---
 
-## ✨ Core Features
+## Core Features
 
-### 1. 🔐 Authentication & Role-Based Access
+### 1. Authentication & Role-Based Access
 - User registration and login using JWT authentication
 - Protected routes for authenticated users
 - Admin-only access to management functionality
-- Session stored in localStorage for frontend route protection
+- Session stored in local Storage for frontend route protection
 - Navbar dynamically adapts based on logged-in user role
 
-### 2. 🎯 Skill Match Engine (Main Product Feature)
+### 2. Skill Match Engine (Main Product Feature)
 Users can:
 
 - enter their current skills (comma-separated),
@@ -52,18 +52,18 @@ The platform then shows:
 
 This is the **core functionality** of CareerStack.
 
-### 3. 📚 Course Recommendation Engine
+### 3. Course Recommendation Engine
 If the user is missing required skills for a job role, CareerStack recommends courses that help close those skill gaps.
 
 The recommendation logic:
 
-- compares missing job skills with course `skills[]` tags
+- compares missing job skills with course `skills []` tags
 - ranks courses based on how many missing skills they cover
 - shows the most relevant results first
 
 This makes the platform a **career improvement tool**, not just a job listing site.
 
-### 4. 💼 Backend-Powered Job Feed
+### 4. Backend-Powered Job Feed
 Admins can add jobs through the backend.
 
 Users can browse job roles and:
@@ -73,10 +73,10 @@ Users can browse job roles and:
 - click **Check Skill Match** (primary action)
 - optionally use **Apply** as a secondary external link
 
-### 5. 💰 Income Tracker
+### 5. Income Tracker
 Users can access a simple income tracking page to visualise career and earning progression over time.
 
-### 6. 🛠️ Admin Dashboard
+### 6. Admin Dashboard
 Admin users can manage platform data through a protected admin interface:
 
 - add/edit/delete jobs
@@ -85,7 +85,7 @@ Admin users can manage platform data through a protected admin interface:
 
 ---
 
-## 🔁 Corrected Product Flow (Important)
+## Corrected Product Flow (Important)
 
 ### Previous job-board style flow (not ideal)
 Job → External Apply Link
@@ -100,7 +100,7 @@ This is the intended and final product design because it better reflects CareerS
 
 ---
 
-## 🧠 How the Skill Matching Works
+## How the Skill Matching Works
 
 Each job stores a list of required skills:
 
@@ -129,12 +129,12 @@ match % = (matched skills / required skills) * 100
 
 Then it identifies:
 
-* matched skills
-* missing skills
+* Matched skills
+* Missing skills
 
 ---
 
-## 📚 How Course Recommendation Works
+## How Course Recommendation Works
 
 Each course stores:
 
@@ -164,20 +164,20 @@ If the user is missing:
 Then CareerStack filters courses where:
 
 ```js
-course.skills overlaps missingSkills
+course. Skills overlaps missing Skills
 ```
 
 Courses are ranked by how many missing skills they cover.
 
 This ensures recommendations are:
 
-* relevant
-* explainable
-* aligned to the target job role
+* Relevant
+* Explainable
+* Aligned to the target job role
 
 ---
 
-## 🏗️ Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -200,7 +200,7 @@ This ensures recommendations are:
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```bash
 careerstack/
@@ -246,7 +246,7 @@ careerstack/
 
 ---
 
-## 🗃️ Data Models
+## Data Models
 
 ### User
 
@@ -282,7 +282,7 @@ careerstack/
 
 ---
 
-## ⚙️ Backend Setup
+## Backend Setup
 
 ### 1. Install dependencies
 
@@ -321,7 +321,7 @@ npm run seed
 
 ---
 
-## ▶️ Frontend Setup
+## Frontend Setup
 
 Since the frontend is plain HTML/CSS/JS, you can run it using:
 
@@ -342,7 +342,7 @@ const API_BASE = "http://localhost:5000/api";
 
 ---
 
-## 🔐 Default Admin Login
+## Default Admin Login
 
 If admin seeding is enabled:
 
@@ -355,7 +355,7 @@ Password: Admin@123
 
 ---
 
-## 🧪 Example User Journey
+## Example User Journey
 
 1. User registers / logs in
 2. Opens **Job Feed**
@@ -384,7 +384,7 @@ This turns the platform into a guided **upskilling pathway**.
 
 ---
 
-## 🚧 Current Limitations / Future Improvements
+## Current Limitations / Future Improvements
 
 ### Current limitations
 
@@ -408,7 +408,7 @@ This turns the platform into a guided **upskilling pathway**.
 
 ---
 
-## 💡 Why This Project Is Valuable
+## Why This Project Is Valuable
 
 CareerStack is stronger than a basic CRUD project because it combines:
 
@@ -434,7 +434,7 @@ That makes it a more meaningful and differentiated project.
 
 ---
 
-## 📈 Project Level Assessment
+## Project Level Assessment
 
 Compared to a simple CRUD app, CareerStack is:
 
@@ -463,7 +463,7 @@ So it should be positioned as:
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 Built as a full-stack academic/product-style project focused on:
 
@@ -472,13 +472,13 @@ Built as a full-stack academic/product-style project focused on:
 * guided learning
 * SDG Goal 8 alignment
 
-Members
+Members-
 Shivam
 Saurav Bhatt
 
 ---
 
-## 📜 License
+## License
 
 This project is for educational / portfolio use.
 
